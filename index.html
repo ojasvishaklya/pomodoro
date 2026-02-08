@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#333333">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pomodoro">
+
+    <title>Pomodoro Timer</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <!-- Session Toggle -->
+            <div class="session-toggle">
+                <button id="focusBtn" class="toggle-btn active">Focus</button>
+                <button id="restBtn" class="toggle-btn">Rest</button>
+            </div>
+
+            <!-- Settings & Layout Toggle -->
+            <div class="top-actions">
+                <button id="layoutToggle" class="icon-btn" title="Toggle Layout">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16.48 2.52c3.27 1.55 5.61 4.72 5.97 8.48h1.5C23.44 4.84 18.29 0 12 0l-.66.03 3.81 3.81 1.33-1.32zm-6.25-.77c-.59-.59-1.54-.59-2.12 0L1.75 8.11c-.59.59-.59 1.54 0 2.12l12.02 12.02c.59.59 1.54.59 2.12 0l6.36-6.36c.59-.59.59-1.54 0-2.12L10.23 1.75zm4.6 19.44L2.81 9.17l6.36-6.36 12.02 12.02-6.36 6.36zm-7.31.29C4.25 19.94 1.91 16.76 1.55 13H.05C.56 19.16 5.71 24 12 24l.66-.03-3.81-3.81-1.33 1.32z"/>
+                    </svg>
+                </button>
+                <button id="settingsToggle" class="icon-btn" title="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Timer Display -->
+        <div class="timer-section">
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            <div class="timer-message" id="timerMessage">Time to focus!</div>
+
+            <!-- Session Dots -->
+            <div class="session-dots">
+                <span class="dot active" data-session="1"></span>
+                <span class="dot" data-session="2"></span>
+                <span class="dot" data-session="3"></span>
+                <span class="dot" data-session="4"></span>
+            </div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="controls">
+            <button id="startBtn" class="control-btn" title="Start" style="display: flex;">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+            <button id="pauseBtn" class="control-btn" style="display: none;" title="Pause">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <button id="resetBtn" class="control-btn" title="Reset">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Settings Panel (Hidden by default) -->
+        <div id="settingsPanel" class="settings-panel">
+            <div class="settings-header">
+                <h3>Settings</h3>
+                <button id="closeSettings" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="settings-content">
+                <div class="setting-group">
+                    <label>Focus Duration (minutes)</label>
+                    <input type="number" id="focusDuration" value="25" min="1" max="60">
+                </div>
+
+                <div class="setting-group">
+                    <label>Short Break (minutes)</label>
+                    <input type="number" id="shortBreakDuration" value="5" min="1" max="30">
+                </div>
+
+                <div class="setting-group">
+                    <label>Long Break (minutes)</label>
+                    <input type="number" id="longBreakDuration" value="15" min="1" max="60">
+                </div>
+
+                <div class="setting-group">
+                    <label class="switch-label">
+                        <input type="checkbox" id="soundToggle" checked>
+                        <span>Sound Notifications</span>
+                    </label>
+                </div>
+
+                <div class="setting-group">
+                    <label class="switch-label">
+                        <input type="checkbox" id="vibrationToggle" checked>
+                        <span>Vibration</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- App JS -->
+    <script src="js/app.js"></script>
+</body>
+</html>

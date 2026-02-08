@@ -1,0 +1,509 @@
+/* Minimal Pomodoro Timer - Ultra Clean Design */
+
+/* ============================================
+   ROOT VARIABLES
+   ============================================ */
+:root {
+    --bg-dark: #333333;
+    --bg-toggle: #404040;
+    --text-primary: #999999;
+    --text-secondary: #666666;
+    --text-white: #ffffff;
+    --icon-play: #4ade80;
+    --icon-pause: #fbbf24;
+    --icon-reset: #999999;
+    --transition: all 0.3s ease;
+}
+
+/* ============================================
+   GLOBAL RESET
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+.app-container {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Landscape Layout */
+.app-container.landscape {
+    flex-direction: row;
+    padding: 40px 60px;
+}
+
+.app-container.landscape .timer-section {
+    flex: 1;
+}
+
+.app-container.landscape .top-bar,
+.app-container.landscape .controls {
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ============================================
+   TOP BAR
+   ============================================ */
+.top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+/* Session Toggle (Focus/Rest) */
+.session-toggle {
+    display: flex;
+    gap: 0;
+    background: var(--bg-toggle);
+    border-radius: 24px;
+    padding: 4px;
+}
+
+.toggle-btn {
+    padding: 10px 24px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.toggle-btn:hover {
+    color: var(--text-primary);
+}
+
+.toggle-btn.active {
+    background: var(--text-white);
+    color: var(--bg-dark);
+}
+
+/* Top Actions (Settings & Layout Toggle) */
+.top-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.icon-btn:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+/* ============================================
+   TIMER SECTION
+   ============================================ */
+.timer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.timer-display {
+    font-size: clamp(80px, 20vw, 180px);
+    font-weight: 200;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.timer-message {
+    font-size: 18px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-top: -10px;
+}
+
+/* Session Dots */
+.session-dots {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg-toggle);
+    transition: var(--transition);
+}
+
+.dot.active {
+    background: var(--text-primary);
+    box-shadow: 0 0 10px rgba(153, 153, 153, 0.5);
+}
+
+.dot.completed {
+    background: var(--text-secondary);
+}
+
+/* ============================================
+   CONTROL BUTTONS
+   ============================================ */
+.controls {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.control-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.control-btn:hover {
+    transform: scale(1.15);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+/* Icon-only buttons */
+.control-btn svg {
+    width: 48px;
+    height: 48px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+#startBtn svg {
+    color: var(--icon-play);
+}
+
+#pauseBtn svg {
+    color: var(--icon-pause);
+}
+
+#resetBtn svg {
+    color: var(--icon-reset);
+}
+
+#startBtn:hover svg,
+#pauseBtn:hover svg {
+    filter: drop-shadow(0 4px 8px currentColor);
+}
+
+#resetBtn:hover svg {
+    color: var(--text-primary);
+}
+
+/* ============================================
+   SETTINGS PANEL
+   ============================================ */
+.settings-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    background: #2a2a2a;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.settings-panel.open {
+    right: 0;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    border-bottom: 1px solid var(--bg-toggle);
+}
+
+.settings-header h3 {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.settings-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-group label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.setting-group input[type="number"] {
+    padding: 12px 16px;
+    border: 1px solid var(--bg-toggle);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-size: 16px;
+    border-radius: 12px;
+    outline: none;
+    transition: var(--transition);
+}
+
+.setting-group input[type="number"]:focus {
+    border-color: var(--text-secondary);
+}
+
+/* Switch Label */
+.switch-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 12px 0;
+}
+
+.switch-label input[type="checkbox"] {
+    width: 48px;
+    height: 28px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--bg-toggle);
+    border-radius: 14px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+}
+
+.switch-label input[type="checkbox"]:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    top: 4px;
+    left: 4px;
+    background: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.switch-label input[type="checkbox"]:checked {
+    background: #4a4a4a;
+}
+
+.switch-label input[type="checkbox"]:checked:before {
+    left: 24px;
+    background: var(--text-white);
+}
+
+.switch-label span {
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Mobile Portrait */
+@media (max-width: 600px) {
+    .app-container {
+        padding: 15px;
+    }
+
+    .timer-display {
+        font-size: clamp(64px, 18vw, 120px);
+    }
+
+    .timer-message {
+        font-size: 16px;
+    }
+
+    .control-btn svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .controls {
+        gap: 30px;
+        padding: 30px 0;
+    }
+
+    .toggle-btn {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    .settings-panel {
+        max-width: 100%;
+    }
+}
+
+/* Mobile Landscape */
+@media (max-height: 600px) and (orientation: landscape) {
+    .app-container {
+        padding: 15px;
+    }
+
+    .timer-display {
+        font-size: clamp(48px, 12vh, 80px);
+    }
+
+    .timer-message {
+        font-size: 14px;
+        margin-top: -5px;
+    }
+
+    .session-dots {
+        margin-top: 10px;
+    }
+
+    .control-btn svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .controls {
+        gap: 25px;
+        padding: 20px 0;
+    }
+
+    .toggle-btn {
+        padding: 6px 16px;
+        font-size: 13px;
+    }
+
+    .top-bar {
+        padding: 10px 0;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .timer-display {
+        font-size: clamp(100px, 18vw, 160px);
+    }
+
+    .control-btn svg {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .app-container.landscape {
+        padding: 60px 80px;
+    }
+
+    .timer-display {
+        font-size: clamp(120px, 15vw, 200px);
+    }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.app-container {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Pulse animation for active timer */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.timer-display.running {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.hidden {
+    display: none !important;
+}
