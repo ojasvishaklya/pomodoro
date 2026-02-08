@@ -137,6 +137,8 @@ function startTimer() {
 
         // Timer finished
         if (STATE.timeLeft <= 0) {
+            STATE.timeLeft = 0; // Ensure it doesn't go negative
+            updateUI();
             completeSession();
         }
     }, 1000);
@@ -206,7 +208,14 @@ function completeSession() {
     sendNotification();
 
     // Move to next session
-    moveToNextSession();
+    const shouldContinue = moveToNextSession();
+
+    // Auto-start next session after a brief delay, unless cycle is complete
+    if (shouldContinue) {
+        setTimeout(() => {
+            startTimer();
+        }, 2000); // 2 second delay before auto-starting
+    }
 }
 
 // Move to next session
@@ -217,14 +226,28 @@ function moveToNextSession() {
         // Check if it's time for long break
         if (STATE.completedSessions >= 4) {
             STATE.sessionType = 'longBreak';
-            STATE.completedSessions = 0;
-            STATE.currentSession = 1;
         } else {
             STATE.sessionType = 'shortBreak';
             STATE.currentSession++;
         }
+    } else if (STATE.sessionType === 'longBreak') {
+        // After long break, complete the full cycle - reset everything
+        STATE.completedSessions = 0;
+        STATE.currentSession = 1;
+        STATE.sessionType = 'focus';
+
+        const duration = getSessionDuration(STATE.sessionType);
+        STATE.timeLeft = duration * 60;
+        STATE.totalTime = duration * 60;
+
+        updateSessionToggle();
+        updateUI();
+        document.title = 'Pomodoro Timer';
+
+        // Return false to indicate cycle is complete, don't auto-start
+        return false;
     } else {
-        // After any break, return to focus
+        // After short break, return to focus
         STATE.sessionType = 'focus';
     }
 
@@ -236,6 +259,9 @@ function moveToNextSession() {
     updateSessionToggle();
     updateUI();
     document.title = 'Pomodoro Timer';
+
+    // Return true to indicate we should continue to next session
+    return true;
 }
 
 // Get session duration based on type
