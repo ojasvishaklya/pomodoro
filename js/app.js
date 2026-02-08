@@ -415,8 +415,8 @@ function sendNotification() {
 
         new Notification('Pomodoro Timer', {
             body: messages[STATE.sessionType] || 'Session complete!',
-            icon: 'icons/icon-192x192.png',
-            badge: 'icons/icon-192x192.png',
+            icon: 'icons/icon.png',
+            badge: 'icons/icon.png',
             tag: 'pomodoro-notification',
             requireInteraction: false
         });

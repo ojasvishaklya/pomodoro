@@ -112,8 +112,8 @@ self.addEventListener('push', (event) => {
 
     const options = {
         body: event.data ? event.data.text() : 'Time to take a break!',
-        icon: 'icons/icon-192x192.png',
-        badge: 'icons/icon-192x192.png',
+        icon: 'icons/icon.png',
+        badge: 'icons/icon.png',
         vibrate: [200, 100, 200],
         tag: 'pomodoro-notification',
         requireInteraction: false
