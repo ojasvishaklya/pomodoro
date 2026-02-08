@@ -1,7 +1,7 @@
-# 🍅 Pomodoro Timer PWA
+# Pomodoro Timer PWA
 
 A minimal, distraction-free Pomodoro timer that works offline and can be installed on any device.
-
+![Pomodoro Timer](icons/icon.png)
 ## Features
 
 - **Classic Pomodoro Flow**: 25-min focus → 5-min break → repeat 4x → 15-min long break
@@ -30,96 +30,6 @@ A minimal, distraction-free Pomodoro timer that works offline and can be install
 3. Tap "Add"
 4. Launch from home screen
 
-## Deployment
-
-### GitHub Pages
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin YOUR_REPO_URL
-git push -u origin main
-```
-Then enable GitHub Pages in repository Settings → Pages → main branch
-
-### Netlify
-1. Visit https://app.netlify.com/drop
-2. Drag and drop the entire project folder
-3. Done!
-
-### Vercel
-```bash
-npx vercel
-```
-
-## Local Development
-
-**Python**:
-```bash
-python -m http.server 8000
-```
-
-**PHP**:
-```bash
-php -S localhost:8000
-```
-
-**Node**:
-```bash
-npx serve
-```
-
-Then visit `http://localhost:8000`
-
-> Note: Service worker (offline mode) requires HTTPS or localhost
-
-## Generate Icons
-
-Before deploying, you need PWA icons. Create a simple HTML file to generate them:
-
-1. Create `icon-gen.html`:
-```html
-<!DOCTYPE html>
-<html>
-<head><title>Icon Generator</title></head>
-<body>
-<canvas id="c"></canvas>
-<script>
-const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
-sizes.forEach(size => {
-    const c = document.createElement('canvas');
-    c.width = c.height = size;
-    const ctx = c.getContext('2d');
-
-    // Background
-    const g = ctx.createLinearGradient(0, 0, size, size);
-    g.addColorStop(0, '#e94560');
-    g.addColorStop(1, '#d63850');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, size, size);
-
-    // Tomato
-    ctx.fillStyle = '#ff6b6b';
-    ctx.beginPath();
-    ctx.arc(size/2, size/2, size*0.35, 0, Math.PI*2);
-    ctx.fill();
-
-    // Download
-    c.toBlob(blob => {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `icon-${size}x${size}.png`;
-        a.click();
-    });
-});
-</script>
-</body>
-</html>
-```
-
-2. Open it in browser, icons download automatically
-3. Save all to `icons/` folder
-
 ## Settings
 
 Click the gear icon to customize:
@@ -144,15 +54,6 @@ Settings are saved locally on your device.
 - Safari 11.3+
 - Firefox 90+
 - Samsung Internet 14+
-
-## Tech Stack
-
-- Vanilla HTML, CSS, JavaScript
-- Service Worker for offline support
-- Web App Manifest for PWA
-- LocalStorage for settings
-- Web Audio API for notifications
-- Wake Lock API to prevent screen sleep
 
 ## License
 
