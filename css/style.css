@@ -4,8 +4,8 @@
    ROOT VARIABLES
    ============================================ */
 :root {
-    --bg-dark: #333333;
-    --bg-toggle: #404040;
+    --bg-dark: #000000;
+    --bg-toggle: #1a1a1a;
     --text-primary: #999999;
     --text-secondary: #666666;
     --text-white: #ffffff;
@@ -56,18 +56,20 @@ body {
 
 /* Landscape Layout */
 .app-container.landscape {
-    flex-direction: row;
-    padding: 40px 60px;
+    flex-direction: column;
+    padding: 20px 40px;
+}
+
+.app-container.landscape .top-bar {
+    width: 100%;
 }
 
 .app-container.landscape .timer-section {
     flex: 1;
 }
 
-.app-container.landscape .top-bar,
 .app-container.landscape .controls {
-    flex-direction: column;
-    gap: 30px;
+    padding: 20px 0;
 }
 
 /* ============================================
@@ -155,7 +157,7 @@ body {
 
 .timer-display {
     font-size: clamp(80px, 20vw, 180px);
-    font-weight: 200;
+    font-weight: 600;
     color: var(--text-primary);
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.03em;
@@ -261,8 +263,8 @@ body {
     width: 100%;
     max-width: 400px;
     height: 100%;
-    background: #2a2a2a;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+    background: #0a0a0a;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.8);
     transition: right 0.3s ease;
     z-index: 1000;
     overflow-y: auto;
@@ -410,39 +412,59 @@ body {
 /* Mobile Landscape */
 @media (max-height: 600px) and (orientation: landscape) {
     .app-container {
-        padding: 15px;
-    }
-
-    .timer-display {
-        font-size: clamp(48px, 12vh, 80px);
-    }
-
-    .timer-message {
-        font-size: 14px;
-        margin-top: -5px;
-    }
-
-    .session-dots {
-        margin-top: 10px;
-    }
-
-    .control-btn svg {
-        width: 36px;
-        height: 36px;
-    }
-
-    .controls {
-        gap: 25px;
-        padding: 20px 0;
-    }
-
-    .toggle-btn {
-        padding: 6px 16px;
-        font-size: 13px;
+        padding: 10px 20px;
     }
 
     .top-bar {
         padding: 10px 0;
+    }
+
+    .timer-section {
+        flex: 1;
+        gap: 8px;
+    }
+
+    .timer-display {
+        font-size: clamp(48px, 12vh, 72px);
+    }
+
+    .timer-message {
+        font-size: 12px;
+        margin-top: 0;
+    }
+
+    .session-dots {
+        margin-top: 8px;
+    }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .controls {
+        gap: 20px;
+        padding: 10px 0;
+    }
+
+    .control-btn svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .toggle-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .icon-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .icon-btn svg {
+        width: 16px;
+        height: 16px;
     }
 }
 
@@ -455,6 +477,21 @@ body {
     .control-btn svg {
         width: 56px;
         height: 56px;
+    }
+}
+
+/* Tablet Landscape */
+@media (min-width: 768px) and (orientation: landscape) {
+    .app-container {
+        padding: 30px 40px;
+    }
+
+    .timer-section {
+        flex: 1;
+    }
+
+    .timer-display {
+        font-size: clamp(80px, 12vw, 140px);
     }
 }
 
