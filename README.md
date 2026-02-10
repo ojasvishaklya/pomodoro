@@ -1,7 +1,7 @@
 # Pomodoro Timer PWA
 
 A minimal, distraction-free Pomodoro timer that works offline and can be installed on any device.
-![Pomodoro Timer](icons/icon.png)
+![Pomodoro Timer](icons/android/android-launchericon-192-192.png)
 ## Features
 
 - **Classic Pomodoro Flow**: 25-min focus → 5-min break → repeat 4x → 15-min long break

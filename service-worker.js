@@ -1,7 +1,7 @@
 // Pomodoro Timer - Service Worker
 // Handles offline functionality and caching
 
-const CACHE_NAME = 'pomodoro-timer-v1.0.0';
+const CACHE_NAME = 'pomodoro-timer-v1.0.1';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -112,8 +112,8 @@ self.addEventListener('push', (event) => {
 
     const options = {
         body: event.data ? event.data.text() : 'Time to take a break!',
-        icon: 'icons/icon.png',
-        badge: 'icons/icon.png',
+        icon: 'icons/android/android-launchericon-192-192.png',
+        badge: 'icons/android/android-launchericon-96-96.png',
         vibrate: [200, 100, 200],
         tag: 'pomodoro-notification',
         requireInteraction: false
